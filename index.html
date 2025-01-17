@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photography</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+<body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50">
+    <div id="preloader">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+            <style>
+              @keyframes rotateBlades {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+              }
+              @keyframes pulseOpacity {
+                0%, 100% { opacity: 0.4; }
+                50% { opacity: 1; }
+              }
+              @keyframes apertureOpen {
+                0%, 100% { r: 8; }
+                50% { r: 12; }
+              }
+              .background {
+                fill: #000;
+              }
+              .aperture-blade {
+                fill: #fff;
+                transform-origin: center;
+                animation: rotateBlades 3s linear infinite;
+              }
+              .center-circle {
+                fill: #fff;
+                animation: apertureOpen 2s ease-in-out infinite;
+              }
+              .focus-ring {
+                fill: none;
+                stroke: #fff;
+                stroke-width: 1;
+                opacity: 0.6;
+              }
+              .focus-point {
+                fill: #fff;
+                animation: pulseOpacity 2s ease-in-out infinite;
+              }
+            </style>
+          
+            <!-- Background -->
+            <rect class="background" x="0" y="0" width="200" height="200"/>
+            
+            <!-- Focus rings -->
+            <circle class="focus-ring" cx="100" cy="100" r="90"/>
+            <circle class="focus-ring" cx="100" cy="100" r="70"/>
+            <circle class="focus-ring" cx="100" cy="100" r="50"/>
+            
+            <!-- Aperture blades -->
+            <g class="aperture-blade">
+              <path d="M100 100 L130 70 L170 70 L140 100 L170 130 L130 130 Z"/>
+              <path d="M100 100 L70 130 L70 170 L100 140 L130 170 L130 130 Z"/>
+              <path d="M100 100 L70 70 L30 70 L60 100 L30 130 L70 130 Z"/>
+            </g>
+            
+            <!-- Focus points -->
+            <circle class="focus-point" cx="100" cy="60" r="3"/>
+            <circle class="focus-point" cx="100" cy="140" r="3"/>
+            <circle class="focus-point" cx="60" cy="100" r="3"/>
+            <circle class="focus-point" cx="140" cy="100" r="3"/>
+            
+            <!-- Center aperture -->
+            <circle class="center-circle" cx="100" cy="100" r="10"/>
+          </svg>
+      </div>
+    <div class="">
+        <div class="container">
+            <nav class="navbar navbar-expand-sm navbar-dark sticky-top">
+                <div class="container">
+                    <a class="navbar-brand text-white shadow-sm" href="#"><b>F<img src="images/Vector.png"
+                                class="img-logo-size">CUS</b></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="#home">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="#aboutus">About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="#blog">Blog</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="#contact">Contact</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="#service">Service</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div class="" id="home" style="position: relative;z-index: -1;top: -3rem;" >
+                <div id="demo" class="carousel slide" data-bs-ride="carousel">
+
+                    <!-- Indicators/dots -->
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+                        <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+                        <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+                    </div>
+
+                    <!-- The slideshow/carousel -->
+                    <div class="carousel-inner text-white">
+                        <div class="carousel-item active">
+                            <div class="row">
+                                <div style="position: absolute;z-index: 1;top: 20%;left: 20%;" class="display-1">
+                                    <b>FOCUS</b>
+                                </div>
+                                <div style="position: absolute;z-index: 1;top: 30%;left: 25%;" class="display-1">
+                                    <b>PHOTOGRAPHY</b>
+                                </div>
+                                <div class="col-6">
+                                    <div style="margin-top: 70%;">Lorem, ipsum dolor sit amet consectetur
+                                        adipisicing elit. Accusamus, dolorem ducimus inventore deleniti maiores minima
+                                        voluptatum. Veniam quidem dolorem suscipit quia nemo ex ab laborum consequuntur!
+                                        Eius
+                                        porro itaque incidunt!<br><br>
+                                        <h3>EXPLORE PAGES</h3><br>
+                                        <h3>LEARN MORE</h3><br>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <img src="images/picture.png" alt="Los Angeles" class="d-block w-100">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Left and right controls/icons -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                </div>
+            </div>
+            <br><br>
+
+
+            <!--About Us Page-->
+            <div class="container text-white pb-5" id="aboutus" style="border-bottom: 2px solid white;">
+                <div class="row">
+                    <div class="col-sm-7 col-md-6 ssp-font mt-5 ">
+                        <div class="aboutus-txt">
+                            <b>
+                                <h1>LENS AND LIFE<br>
+                                    EXPLORING THE<br>WORLD THROUGH<br> PHOTOGRAPHY</h1><br>
+                            </b>
+                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.<br> Enim dolorem officia
+                                incidunt
+                                et
+                                numquam dolores! </p><br><br>
+                            <b>
+                                <a href="#"><h3>READ MORE  <i class="fa-solid fa-arrow-up-right-from-square" style="color: red;font-size: large;"></i></h3></a>
+                            </b>
+                        </div>
+                    </div>
+                    <div class="col-sm-5 col-md-6">
+                        <div class="">
+                            <!-- Base image -->
+                            <img src="images/About Us.png" class="img-fluid float-end">
+                            <img src="images/About Us(1).png" class="img-fluid" style="margin-top: -8rem;">
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div><br>
+            <!--Service Photography-->
+            <div id="service" class="text-white container pb-5" style="border-bottom: 2px solid white;">
+                <div class="spp-font">
+                    <div>
+                        <b>
+                            <h1>CAPTURE YOUR MOMENTS OUR<br>PHOTOGRAPHY SERVICES</h1>
+                        </b>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-7"></div>
+                    <div class="col-sm-5">
+                        <img src="images/Service.png" class="img-fluid">
+                    </div>
+                </div><br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <a href="#"><div >
+                            <h2>PHOTOGRAPHY  <i class="fa-solid fa-arrow-up-right-from-square" style="color: red;font-size: large;"></i></h2>
+                        </div></a><br>
+                        <a href="#"><div >
+                            <h2>VIDEOGRAPHY  <i class="fa-solid fa-arrow-up-right-from-square" style="color: red;font-size: large;"></i></h2>
+                        </div></a><br>
+                        <a href="#"><div >
+                            <h2>AERIAL PHOTOGRAPHY  <i class="fa-solid fa-arrow-up-right-from-square" style="color: red;font-size: large;"></i></h2>
+                        </div></a><br>
+                        <a href="#"><div >
+                            <h2>PHOTO RETOUCHING  <i class="fa-solid fa-arrow-up-right-from-square" style="color: red;font-size: large;"></i></h2>
+                        </div></a>
+                    </div>
+                </div>
+            </div>
+            <!--PORTFOLIO-->
+            <div id="portfolio" class="container text-white mt-5 pb-5" style="border-bottom: 2px solid white;">
+                <div class="display-1">
+                    <b>
+                        <h1>VISUAL TAPESTRY OUR<br>CAPTIVATING PORTFOLIO</h1>
+                    </b>
+                </div><br><br>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="d-flex flex-column">
+                            <div class=""><img src="images/Travel 1(1).png" class="img-fluid"></div>
+                            <div class=""><img src="images/Personal.png" class="img-fluid" style="margin-top: 2.3em;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class=""><img src="images/Wedding(1).png" class="img-fluid"></div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="d-flex flex-column">
+                            <div class=""><img src="images/Family.png" class="img-fluid"></div>
+                            <div class=""><img src="images/Travel 2.png" class="img-fluid" style="margin-top: 2.3em;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--CLIENTS-->
+            <div id="clients" class="container text-white mt-5 pb-5" style="border-bottom: 2px solid white;">
+                <div>
+                    <b>
+                        <h1>CLIENT TESTIMONIALS MEMORIES<br>WE'VE HELPED CREATE</h1>
+                    </b>
+                </div><br><br>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="">
+                            <img class="card-img-top" src="images/Client 1.png" alt="Card image"
+                                style="width:100%"><br><br>
+                            <div class="card-body" style="text-transform: uppercase;">
+                                <h4 class="card-title"><b>DARRYL SIPES</b></h4><br>
+                                <p class="card-text">Product Factors Liaison</p><br>
+                                <p><b>“Lorem ipsum dolor sit amet,<br> consectetur adipiscing elit. Curabitur<br> magna
+                                        metus, vulputate commodo.”</b></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="">
+                            <img class="card-img-top" src="images/Client 2.png" alt="Card image"
+                                style="width:100%"><br><br>
+                            <div class="card-body" style="text-transform: uppercase;">
+                                <h4 class="card-title"><b>RUBY LUEILWITZ</b></h4><br>
+                                <p class="card-text">Corporate Data Technician </p><br>
+                                <p><b>“Lorem ipsum dolor sit amet,<br> consectetur adipiscing elit. Curabitur<br> magna
+                                        metus, vulputate commodo.”</b></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="">
+                            <img class="card-img-top" src="images/Client 3.png" alt="Card image"
+                                style="width:100%"><br><br>
+                            <div class="card-body" style="text-transform: uppercase;">
+                                <h4 class="card-title"><b>Alexandra Walter PhD</b></h4><br>
+                                <p class="card-text">Investor Operations Liaison </p><br>
+                                <p><b>“Lorem ipsum dolor sit amet,<br> consectetur adipiscing elit. Curabitur<br> magna
+                                        metus, vulputate commodo.”</b></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--BLOG-->
+            <div id="blog" class="container text-white mt-5 pb-5" style="border-bottom: 2px solid white;">
+                <div>
+                    <b>
+                        <h1>EXPLORING<br>PHOTOGRAPHY INSIGHTS</h1>
+                    </b>
+                </div><br><br>
+                <div class="row">
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-4">
+                        <div class="">
+                            <img class="card-img-top" src="images/Our Blog.png" alt="Card image"
+                                style="width:100%"><br><br>
+                            <div class="card-body" style="text-transform: uppercase;">
+                                <h4 class="card-title"><b>Mastering Composition The<br> Key to Captivating<br>
+                                        Photographs</b></h4><br>
+                                <p><b>“Lorem ipsum dolor sit amet,<br> consectetur adipiscing elit. Curabitur<br> magna
+                                        metus, vulputate commodo.”</b></p><br><br>
+                                <a href="#"><h4>READ MORE  <i class="fa-solid fa-arrow-up-right-from-square" style="color: red;font-size: large;"></i></h4></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="">
+                            <img class="card-img-top" src="images/Our Blog(1).png" alt="Card image"
+                                style="width:100%"><br><br>
+                            <div class="card-body" style="text-transform: uppercase;">
+                                <h4 class="card-title"><b>UNLOCKING THE CREATIVITY<br>INSPIRING IDEAS FOR YOUR<br>
+                                        PHOTOGRAPHY</b></h4><br>
+                                <p><b>“Lorem ipsum dolor sit amet,<br> consectetur adipiscing elit. Curabitur<br> magna
+                                        metus, vulputate commodo.”</b></p><br><br>
+                                <a href="#"><h4>READ MORE  <i class="fa-solid fa-arrow-up-right-from-square" style="color: red;font-size: large;"></i></h4></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><br><br>
+            <!--CALL-->
+            <div id="contact" class="container text-white">
+                <div class="cont-container position-relative">
+                    <img src="images/Call to use.png" class="img-fluid" alt="Example Image">
+                    <div class="text-overlay">
+                        <!-- Responsive main heading -->
+                        <h1 class="p-2 mb-4">
+                            <span class="d-none d-xl-block display-3"><b>NEED HELP WITH<br> OUR PHOTOGRAPHY?</b></span>
+                            <span class="d-none d-lg-block d-xl-none display-3"><b>NEED HELP WITH<br> OUR PHOTOGRAPHY?</b></span>
+                            <span class="d-none d-md-block d-lg-none display-4"><b>NEED HELP WITH<br> OUR PHOTOGRAPHY?</b></span>
+                            <span class="d-none d-sm-block d-md-none display-5"><b>NEED HELP WITH<br> OUR PHOTOGRAPHY?</b></span>
+                            <span class="d-block d-sm-none display-6"><b>NEED HELP WITH<br> OUR PHOTOGRAPHY?</b></span>
+                        </h1>
+            
+                      
+            
+                        <!-- Responsive button -->
+                        <button id="openPopup" class="popup-trigger btn btn-lg">Contact Us</button>
+                    </div>
+                </div>
+            </div><br><br>
+            <!--FOOTER-->
+            <div class="container text-white bg-dark"><br>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h1 class="h3"><b>QUICK LINKS</b></h1><br><br>
+                        <div>ABOUT US</div><br>
+                        <div>SERVICE</div><br>
+                        <div>PORTFOLIO</div><br>
+                        <div>TESTIMONIALS</div><br>
+                    </div>
+                    <div class="col-sm-4">
+                        <h1 class="h3"><b>CONTACT US</b></h1><br><br>
+                        <div><i class="fa-regular fa-envelope"></i> FOCUS@GMAIL>COM</div><br>
+                        <div><i class="fa-solid fa-phone"></i> 669-508-6708</div><br>
+                    </div>
+                    <div class="col-sm-4">
+                        <h1 class="h3"><b>SUBSCRIBE</b></h1><br><br>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Email-Address">
+                            <button class="btn btn-danger" type="button"><b>SUBSCRIBE</b></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+<div id="popupOverlay" class="popup-overlay pb-5">
+    <div class="popup-content">
+        <span class="close-popup">&times;</span>
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h2 class="text-center mb-4">Contact Me</h2>
+                    <form>
+                        <!-- Email Field -->
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Your Email Address:</label>
+                            <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                        </div>
+                        
+                        <!-- Description Field -->
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description:</label>
+                            <textarea class="form-control" id="description" rows="5" placeholder="Enter your message" required></textarea>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-danger">Send</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Racing</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @keyframes backgroundPulse {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            background: linear-gradient(-45deg, #0f0525, #1a0f3c, #2a1854, #160d33);
+            background-size: 400% 400%;
+            animation: backgroundPulse 15s ease infinite;
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .neon-text {
+            color: #fff;
+            text-shadow: 0 0 5px #fff,
+                         0 0 10px #fff,
+                         0 0 20px #0ff,
+                         0 0 30px #0ff,
+                         0 0 40px #0ff;
+        }
+
+        #gameArea {
+            width: 100%;
+            height: 600px;
+            background: linear-gradient(to bottom, 
+                rgba(16, 13, 42, 0.9),
+                rgba(27, 20, 66, 0.9)),
+                repeating-linear-gradient(
+                    to bottom,
+                    transparent 0%,
+                    rgba(26, 26, 26, 0.3) 1px,
+                    transparent 2px
+                );
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(88, 37, 255, 0.3),
+                        inset 0 0 50px rgba(88, 37, 255, 0.2);
+            border: 1px solid rgba(88, 37, 255, 0.2);
+        }
+
+        .road {
+            position: absolute;
+            width: 60%;
+            height: 100%;
+            left: 20%;
+            background: linear-gradient(90deg, 
+                rgba(23, 19, 51, 0.8),
+                rgba(41, 31, 92, 0.8),
+                rgba(23, 19, 51, 0.8));
+            box-shadow: 0 0 50px rgba(88, 37, 255, 0.4);
+            border-left: 2px solid rgba(255, 255, 255, 0.2);
+            border-right: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .road::before, .road::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .road::before { left: 10px; }
+        .road::after { right: 10px; }
+
+        .road-line {
+            width: 8px;
+            height: 60px;
+            background: linear-gradient(to bottom,
+                rgba(255, 255, 255, 0.9),
+                rgba(255, 255, 255, 0.5));
+            position: absolute;
+            left: 50%;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+        }
+
+        #playerCar {
+            width: 60px;
+            height: 100px;
+            position: absolute;
+            bottom: 50px;
+            transition: transform 0.15s ease;
+            filter: drop-shadow(0 0 20px rgba(255, 87, 187, 0.7));
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 100"><defs><linearGradient id="carGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23ff3399"/><stop offset="100%" style="stop-color:%23ff0066"/></linearGradient></defs><path d="M10,80 L10,40 Q10,10 30,10 Q50,10 50,40 L50,80 Q50,90 30,90 Q10,90 10,80 Z" fill="url(%23carGrad)"/><rect x="12" y="25" width="36" height="20" fill="rgba(255,255,255,0.9)"/><ellipse cx="30" cy="15" rx="15" ry="5" fill="rgba(255,255,255,0.3)"/><circle cx="15" cy="75" r="6" fill="%23333"/><circle cx="45" cy="75" r="6" fill="%23333"/><circle cx="15" cy="75" r="3" fill="%23666"/><circle cx="45" cy="75" r="3" fill="%23666"/></svg>');
+        }
+
+        .obstacle {
+            width: 60px;
+            height: 100px;
+            position: absolute;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.7));
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 100"><defs><linearGradient id="enemyGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%2300ffff"/><stop offset="100%" style="stop-color:%230099ff"/></linearGradient></defs><path d="M10,80 L10,40 Q10,10 30,10 Q50,10 50,40 L50,80 Q50,90 30,90 Q10,90 10,80 Z" fill="url(%23enemyGrad)"/><rect x="12" y="25" width="36" height="20" fill="rgba(255,255,255,0.9)"/><ellipse cx="30" cy="15" rx="15" ry="5" fill="rgba(255,255,255,0.3)"/><circle cx="15" cy="75" r="6" fill="%23333"/><circle cx="45" cy="75" r="6" fill="%23333"/><circle cx="15" cy="75" r="3" fill="%23666"/><circle cx="45" cy="75" r="3" fill="%23666"/></svg>');
+        }
+
+        .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            color: #fff;
+            font-size: 72px;
+            font-weight: bold;
+            text-shadow: 0 0 10px #ff0066,
+                         0 0 20px #ff0066,
+                         0 0 30px #ff0066,
+                         0 0 40px #ff0066;
+            display: none;
+            animation: gameOverPulse 1.5s infinite;
+            z-index: 100;
+        }
+
+        @keyframes gameOverPulse {
+            0% { transform: translate(-50%, -50%) scale(1); filter: brightness(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); filter: brightness(1.2); }
+            100% { transform: translate(-50%, -50%) scale(1); filter: brightness(1); }
+        }
+
+        .custom-card {
+            background: rgba(20, 17, 45, 0.95);
+            border-radius: 25px;
+            box-shadow: 0 0 50px rgba(88, 37, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(88, 37, 255, 0.2);
+        }
+
+        .custom-header {
+            background: linear-gradient(135deg, 
+                rgba(88, 37, 255, 0.2), 
+                rgba(255, 0, 102, 0.2));
+            border-radius: 25px 25px 0 0;
+            padding: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .game-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #ff3399, #ff00cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 51, 153, 0.5);
+        }
+
+        .score-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1rem 2rem;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .score-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .score-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .custom-footer {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 0 0 25px 25px;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .start-btn {
+            padding: 1rem 3.5rem;
+            font-size: 1.4rem;
+            font-weight: bold;
+            border-radius: 50px;
+            background: linear-gradient(45deg, #ff3399, #ff0066);
+            border: none;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 30px rgba(255, 51, 153, 0.5);
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 50px rgba(255, 51, 153, 0.8);
+        }
+
+        .start-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: rotate(45deg);
+            animation: buttonShine 2s infinite;
+        }
+
+        @keyframes buttonShine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .controls-hint {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            animation: particleAnimation 1s ease-out forwards;
+            mix-blend-mode: screen;
+        }
+
+        @keyframes particleAnimation {
+            0% { transform: scale(1) rotate(0deg); opacity: 1; }
+            100% { transform: scale(2.5) rotate(360deg); opacity: 0; }
+        }
+
+        .speed-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.3;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 50%,
+                #fff 50%,
+                #fff 50.1%
+            );
+            background-size: 200px 100%;
+            animation: speedLines 0.2s linear infinite;
+        }
+
+        @keyframes speedLines {
+            0% { background-position: 0 0; }
+            100% { background-position: -200px 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="custom-card">
+                    <div class="custom-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h1 class="game-title mb-0">NEON RACER</h1>
+                            <div class="d-flex gap-4">
+                                <div class="score-container">
+                                    <div class="score-label">SCORE</div>
+                                    <div class="score-value" id="score">0</div>
+                                </div>
+                                <div class="score-container">
+                                    <div class="score-label">BEST</div>
+                                    <div class="score-value" id="highScore">0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="gameArea">
+                            <div class="speed-lines"></div>
+                            <div class="road"></div>
+                            <div id="playerCar"></div>
+                            <div class="game-over">GAME OVER</div>
+                        </div>
+                    </div>
+                    <div class="custom-footer text-center">
+                        <button id="startButton" class="btn start-btn">START GAME</button>
+                        <div class="controls-hint">
+                            Use ← → Arrow keys or A D keys to navigate
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+const gameArea = document.getElementById('gameArea');
+const playerCar = document.getElementById('playerCar');
+const scoreElement = document.getElementById('score');
+const highScoreElement = document.getElementById('highScore');
+const startButton = document.getElementById('startButton');
+const gameOverDisplay = document.querySelector('.game-over');
+
+let score = 0;
+let highScore = 0;
+let isGameRunning = false;
+let playerPosition = gameArea.offsetWidth / 2;
+let playerVelocity = 0;
+let obstacles = [];
+let animationFrameId;
+let roadLines = [];
+let keysPressed = new Set();
+let gameSpeed = 5;
+
+function createParticles(x, y) {
+    for (let i = 0; i < 8; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = (x + Math.random() * 40 - 20) + 'px';
+        particle.style.top = (y + Math.random() * 40 - 20) + 'px';
+        particle.style.width = Math.random() * 6 + 4 + 'px';
+        particle.style.height = particle.style.width;
+        gameArea.appendChild(particle);
+        setTimeout(() => particle.remove(), 800);
+    }
+}
+
+function createRoadLines() {
+    const lineCount = 10;
+    const spacing = gameArea.offsetHeight / (lineCount - 1);
+    
+    roadLines.forEach(line => line.remove());
+    roadLines = [];
+    
+    for (let i = 0; i < lineCount; i++) {
+        const line = document.createElement('div');
+        line.className = 'road-line';
+        line.style.top = (i * spacing) + 'px';
+        gameArea.appendChild(line);
+        roadLines.push(line);
+    }
+}
+
+function updateRoadLines() {
+    roadLines.forEach(line => {
+        let top = parseInt(line.style.top);
+        top += gameSpeed;
+        if (top > gameArea.offsetHeight) {
+            top = -60;
+        }
+        line.style.top = top + 'px';
+    });
+}
+
+function createObstacle() {
+    const obstacle = document.createElement('div');
+    obstacle.className = 'obstacle';
+    const roadWidth = gameArea.offsetWidth * 0.6;
+    const roadLeft = gameArea.offsetWidth * 0.2;
+    const position = roadLeft + Math.random() * (roadWidth - 60);
+    obstacle.style.left = position + 'px';
+    obstacle.style.top = '-100px';
+    gameArea.appendChild(obstacle);
+    obstacles.push(obstacle);
+}
+
+function updateObstacles() {
+    for (let i = obstacles.length - 1; i >= 0; i--) {
+        const obstacle = obstacles[i];
+        const top = parseInt(obstacle.style.top || '-100') + gameSpeed;
+        obstacle.style.top = top + 'px';
+
+        if (top > gameArea.offsetHeight) {
+            obstacle.remove();
+            obstacles.splice(i, 1);
+            score += 10;
+            scoreElement.textContent = score;
+            if (score > highScore) {
+                highScore = score;
+                highScoreElement.textContent = highScore;
+            }
+            createParticles(parseInt(obstacle.style.left) + 30, gameArea.offsetHeight);
+        }
+
+        if (checkCollision(obstacle)) {
+            gameOver();
+        }
+    }
+}
+
+function checkCollision(obstacle) {
+    const playerRect = playerCar.getBoundingClientRect();
+    const obstacleRect = obstacle.getBoundingClientRect();
+    
+    const collisionBuffer = 10;
+    return !(
+        playerRect.right - collisionBuffer < obstacleRect.left + collisionBuffer || 
+        playerRect.left + collisionBuffer > obstacleRect.right - collisionBuffer || 
+        playerRect.bottom - collisionBuffer < obstacleRect.top + collisionBuffer || 
+        playerRect.top + collisionBuffer > obstacleRect.bottom - collisionBuffer
+    );
+}
+
+function updatePlayerPosition() {
+    const acceleration = 1.2;
+    const friction = 0.94;
+    const maxVelocity = 15;
+
+    if (keysPressed.has('ArrowLeft') || keysPressed.has('a') || keysPressed.has('A')) {
+        playerVelocity -= acceleration;
+    }
+    if (keysPressed.has('ArrowRight') || keysPressed.has('d') || keysPressed.has('D')) {
+        playerVelocity += acceleration;
+    }
+
+    playerVelocity *= friction;
+    playerVelocity = Math.max(Math.min(playerVelocity, maxVelocity), -maxVelocity);
+    
+    const roadWidth = gameArea.offsetWidth * 0.6;
+    const roadLeft = gameArea.offsetWidth * 0.2;
+    playerPosition += playerVelocity;
+    playerPosition = Math.max(roadLeft, Math.min(playerPosition, roadLeft + roadWidth - 60));
+    
+    const rotationAngle = -playerVelocity * 1.2;
+    playerCar.style.transform = `translateX(${playerPosition}px) rotate(${rotationAngle}deg)`;
+}
+
+function gameLoop() {
+    if (!isGameRunning) return;
+    
+    updateRoadLines();
+    updateObstacles();
+    updatePlayerPosition();
+
+    if (Math.random() < 0.02) {
+        createObstacle();
+    }
+
+    // Increase game speed gradually
+    gameSpeed = Math.min(12, 5 + Math.floor(score / 100));
+
+    animationFrameId = requestAnimationFrame(gameLoop);
+}
+
+function gameOver() {
+    isGameRunning = false;
+    gameOverDisplay.style.display = 'block';
+    startButton.textContent = 'TRY AGAIN';
+    cancelAnimationFrame(animationFrameId);
+}
+
+function startGame() {
+    // Reset game state
+    isGameRunning = true;
+    score = 0;
+    gameSpeed = 5;
+    scoreElement.textContent = score;
+    gameOverDisplay.style.display = 'none';
+    
+    // Clear existing obstacles
+    obstacles.forEach(obstacle => obstacle.remove());
+    obstacles = [];
+    
+    // Reset player position
+    const roadWidth = gameArea.offsetWidth * 0.6;
+    const roadLeft = gameArea.offsetWidth * 0.2;
+    playerPosition = roadLeft + (roadWidth - 60) / 2;
+    playerVelocity = 0;
+    playerCar.style.transform = `translateX(${playerPosition}px) rotate(0deg)`;
+    
+    // Reset road lines
+    createRoadLines();
+    
+    // Start the game loop
+    gameLoop();
+}
+
+// Event Listeners
+startButton.addEventListener('click', startGame);
+
+document.addEventListener('keydown', (e) => {
+    if (['ArrowLeft', 'ArrowRight', 'a', 'A', 'd', 'D'].includes(e.key)) {
+        e.preventDefault();
+        keysPressed.add(e.key);
+    }
+});
+
+document.addEventListener('keyup', (e) => {
+    keysPressed.delete(e.key);
+});
+
+// Initialize road lines
+createRoadLines();
+</script>
+</body>
+</html>
